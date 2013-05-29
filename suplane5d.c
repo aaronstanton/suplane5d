@@ -63,8 +63,8 @@ char *sdoc[] = {
   "           t0 = 0.2; (zero offset time for each event )                 ",
   "           v_mx = 10000000; (velocity for each event in mx direction)   ",
   "           v_my = 10000000; (velocity for each event in my direction)   ",
-  "           v_hx = 5000; (velocity for each event in hx direction)       ",
-  "           v_hy = 5000; (velocity for each event in hy direction)       ",
+  "           v_hx = 900; (velocity for each event in hx direction)       ",
+  "           v_hy = 900; (velocity for each event in hy direction)       ",
   "           curve_mx = 2; (power multiplied against the distance to achieve curvature in mx direction) ",
   "           curve_my = 2; (power multiplied against the distance to achieve curvature in my direction) ",
   "           curve_hx = 2; (power multiplied against the distance to achieve curvature in hx direction) ",
@@ -172,8 +172,8 @@ int main(int argc, char **argv)
     t0 = ealloc1float(nevent); t0[0] = 0.2;
     v_mx = ealloc1float(nevent); v_mx[0] = 10000000;
     v_my = ealloc1float(nevent); v_my[0] = 10000000;
-    v_hx = ealloc1float(nevent); v_hx[0] = 5000;
-    v_hy = ealloc1float(nevent); v_hy[0] = 5000;
+    v_hx = ealloc1float(nevent); v_hx[0] = 900;
+    v_hy = ealloc1float(nevent); v_hy[0] = 900;
     curve_mx = ealloc1float(nevent); curve_mx[0] = 2;
     curve_my = ealloc1float(nevent); curve_my[0] = 2;
     curve_hx = ealloc1float(nevent); curve_hx[0] = 2;
@@ -219,18 +219,18 @@ int main(int argc, char **argv)
     } 
   }
   
-  if (!getparfloat("sxmin", &sxmin)) sxmin=50;
-  if (!getparfloat("sxmax", &sxmax)) sxmax=50;
-  if (!getparfloat("symin", &symin)) symin=50;
-  if (!getparfloat("symax", &symax)) symax=50;
-  if (!getparfloat("gxmin", &gxmin)) gxmin=50;
-  if (!getparfloat("gxmax", &gxmax)) gxmax=50;
-  if (!getparfloat("gymin", &gymin)) gymin=1;
-  if (!getparfloat("gymax", &gymax)) gymax=100;
-  if (!getparfloat("dsx", &dsx)) dsx=1;
-  if (!getparfloat("dsy", &dsy)) dsy=1;
-  if (!getparfloat("dgx", &dgx)) dgx=1;
-  if (!getparfloat("dgy", &dgy)) dgy=1;
+  if (!getparfloat("sxmin", &sxmin)) sxmin=500;
+  if (!getparfloat("sxmax", &sxmax)) sxmax=500;
+  if (!getparfloat("symin", &symin)) symin=500;
+  if (!getparfloat("symax", &symax)) symax=500;
+  if (!getparfloat("gxmin", &gxmin)) gxmin=500;
+  if (!getparfloat("gxmax", &gxmax)) gxmax=500;
+  if (!getparfloat("gymin", &gymin)) gymin=0;
+  if (!getparfloat("gymax", &gymax)) gymax=1000;
+  if (!getparfloat("dsx", &dsx)) dsx=10;
+  if (!getparfloat("dsy", &dsy)) dsy=10;
+  if (!getparfloat("dgx", &dgx)) dgx=10;
+  if (!getparfloat("dgy", &dgy)) dgy=10;
   /*  */
   if (!getparfloat("mxmax", &mxmax)) mxmax=0;
   if (!getparfloat("mymin", &mymin)) mymin=0;

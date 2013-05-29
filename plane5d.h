@@ -102,10 +102,10 @@ void plane5d(float **d,
     for (ih=0;ih<nh;ih++){ 
       for (iw=ifmin;iw<ifmax;iw++){
         omega = (float) 2*PI*iw/ntfft/dt;
-        shift_mx = powf(fabsf(mx[ih]),curve_mx[ievent])/v_mx[ievent];
-        shift_my = powf(fabsf(my[ih]),curve_my[ievent])/v_my[ievent];
-        shift_hx = powf(fabsf(hx[ih]),curve_hx[ievent])/v_hx[ievent];
-        shift_hy = powf(fabsf(hy[ih]),curve_hy[ievent])/v_hy[ievent];
+        shift_mx = powf(fabsf(mx[ih]),curve_mx[ievent])/(v_mx[ievent]*v_mx[ievent]);
+        shift_my = powf(fabsf(my[ih]),curve_my[ievent])/(v_my[ievent]*v_my[ievent]);
+        shift_hx = powf(fabsf(hx[ih]),curve_hx[ievent])/(v_hx[ievent]*v_hx[ievent]);
+        shift_hy = powf(fabsf(hy[ih]),curve_hy[ievent])/(v_hy[ievent]*v_hy[ievent]);
         /*
         fprintf(stderr,"shift_mx=%f shift_my=%f shift_hx=%f shift_hy=%f\n",shift_mx,shift_my,shift_hx,shift_hy);
 		*/

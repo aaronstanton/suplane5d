@@ -70,10 +70,23 @@ char *sdoc[] = {
   "           curve_hx = 2; (power multiplied against the distance to achieve curvature in hx direction) ",
   "           curve_hy = 2; (power multiplied against the distance to achieve curvature in hy direction)",
   "                                                                   ",
+  "           It is also possible to perturb the shot/receiver or midpoint/offset coordinates ",
+  "           using the following parameters:                         ",
+  "           when working with shot/receiver geometry code:                  ", 
+  "           sx_std_dev = 0; (standard deviation of the sx corrdinate from the regular position) ",
+  "           sy_std_dev = 0; (standard deviation of the sy corrdinate from the regular position) ",
+  "           gx_std_dev = 0; (standard deviation of the gx corrdinate from the regular position) ",
+  "           gy_std_dev = 0; (standard deviation of the gy corrdinate from the regular position) ",
+  "           when working with midpoint/offset geometry code:                  ", 
+  "           mx_std_dev = 0; (standard deviation of the mx corrdinate from the regular position) ",
+  "           my_std_dev = 0; (standard deviation of the my corrdinate from the regular position) ",
+  "           hx_std_dev = 0; (standard deviation of the hx corrdinate from the regular position) ",
+  "           hy_std_dev = 0; (standard deviation of the hy corrdinate from the regular position) ",
+  "                                                                   ",
   "           Example coding:                                         ",
-  "           # makes a single 2D shot gather                         ",
-  "           suplane5d verbose=1  > d.su                             ",
-  "           suxwigb wclip=-1 bclip=1 key=gy < d.su &                ",
+  "           # makes a single 2D shot gather with irregular spacing       ",
+  "           suplane5d verbose=1 gy_std_dev=5 > d.su                      ",
+  "           suxwigb wclip=-1 bclip=1 key=gy < d.su &                     ",
  NULL};
 /* Credits:
  * Aaron Stanton
@@ -105,7 +118,9 @@ int main(int argc, char **argv)
   float dt,tmax;
   float f0,fmin,fmax;
   float **d;  
-  float *sx,*sy,*gx,*gy,*mx,*my,*hx,*hy,*h,*az; 
+  float *sx,*sy,*gx,*gy,*mx,*my,*hx,*hy,*h,*az;
+  float sx_std_dev,sy_std_dev,gx_std_dev,gy_std_dev,mx_std_dev,my_std_dev,hx_std_dev,hy_std_dev;
+  float *sx_dev,*sy_dev,*gx_dev,*gy_dev,*mx_dev,*my_dev,*hx_dev,*hy_dev; 
   float sxmin,sxmax,dsx;
   float symin,symax,dsy;
   float gxmin,gxmax,dgx;
@@ -141,6 +156,14 @@ int main(int argc, char **argv)
   nt = (int) (tmax/dt) + 1;
   if (!getparfloat("fmin",&fmin)) fmin = 0;
   if (!getparfloat("fmax",&fmax)) fmax = 0.5/dt;
+  if (!getparfloat("sx_std_dev",&sx_std_dev)) sx_std_dev = 0;
+  if (!getparfloat("sy_std_dev",&sy_std_dev)) sy_std_dev = 0;
+  if (!getparfloat("gx_std_dev",&gx_std_dev)) gx_std_dev = 0;
+  if (!getparfloat("gy_std_dev",&gy_std_dev)) gy_std_dev = 0;
+  if (!getparfloat("mx_std_dev",&mx_std_dev)) mx_std_dev = 0;
+  if (!getparfloat("my_std_dev",&my_std_dev)) my_std_dev = 0;
+  if (!getparfloat("hx_std_dev",&hx_std_dev)) hx_std_dev = 0;
+  if (!getparfloat("hy_std_dev",&hy_std_dev)) hy_std_dev = 0;
   fmax = MIN(fmax,0.5/dt);
   if (!getparfloat("f0",&f0)) f0 = 30; /* 30 Hz dominant freq for ricker wavelet */
   if (!getparint("nevent",&nevent)){ 
@@ -195,8 +218,7 @@ int main(int argc, char **argv)
       fprintf(stderr,"curve_hy[%d] =%f\n",ievent,curve_hy[ievent]);
     } 
   }
-
-
+  
   if (!getparfloat("sxmin", &sxmin)) sxmin=50;
   if (!getparfloat("sxmax", &sxmax)) sxmax=50;
   if (!getparfloat("symin", &symin)) symin=50;
@@ -257,24 +279,30 @@ int main(int argc, char **argv)
   hx = ealloc1float(nh);
   hy = ealloc1float(nh);
   h  = ealloc1float(nh);
+    
+  sx_dev = ealloc1float(nsx);
+  sy_dev = ealloc1float(nsy);
+  gx_dev = ealloc1float(ngx);
+  gy_dev = ealloc1float(ngy);
+  mx_dev = ealloc1float(nmx);
+  my_dev = ealloc1float(nmy);
+  hx_dev = ealloc1float(nhx);
+  hy_dev = ealloc1float(nhy);
   
-  if (verbose) fprintf(stderr,"creating %d traces \n", nh);
-
-  for (ih=0;ih<nh;ih++){ 
-    for (it=0;it<nt;it++){   
-      d[ih][it] = 0;
-    }
-  }
-  if (mode==1){ 
+  if (mode==1){
+  	for (isx=0;isx<nsx;isx++) sx_dev[isx] = sx_std_dev*frannor();
+  	for (isy=0;isy<nsy;isy++) sy_dev[isy] = sy_std_dev*frannor();
+  	for (igx=0;igx<ngx;igx++) gx_dev[igx] = gx_std_dev*frannor();
+  	for (igy=0;igy<ngy;igy++) gy_dev[igy] = gy_std_dev*frannor();
     ih = 0;   
     for (isx=0;isx<nsx;isx++){ 
       for (isy=0;isy<nsy;isy++){ 
         for (igx=0;igx<ngx;igx++){ 
           for (igy=0;igy<ngy;igy++){ 
-            sx[ih] = isx*dsx + sxmin;
-            sy[ih] = isy*dsy + symin; 
-            gx[ih] = igx*dgx + gxmin; 
-            gy[ih] = igy*dgy + gymin; 
+            sx[ih] = isx*dsx + sxmin + sx_dev[isx];
+            sy[ih] = isy*dsy + symin + sy_dev[isy]; 
+            gx[ih] = igx*dgx + gxmin + gx_dev[igx]; 
+            gy[ih] = igy*dgy + gymin + gy_dev[igy]; 
             ih++;
           }
         }
@@ -282,15 +310,19 @@ int main(int argc, char **argv)
     } 
   } 
   else{ 
+  	for (imx=0;imx<nmx;imx++) mx_dev[imx] = mx_std_dev*frannor();
+  	for (imy=0;imy<nmy;imy++) my_dev[imy] = my_std_dev*frannor();
+  	for (ihx=0;ihx<nhx;ihx++) hx_dev[ihx] = hx_std_dev*frannor();
+  	for (ihy=0;ihy<nhy;ihy++) hy_dev[ihy] = hy_std_dev*frannor();
     ih = 0;   
     for (imx=0;imx<nmx;imx++){ 
       for (imy=0;imy<nmy;imy++){ 
         for (ihx=0;ihx<nhx;ihx++){ 
           for (ihy=0;ihy<nhy;ihy++){ 
-            mx[ih] = imx*dmx + mxmin;
-            my[ih] = imy*dmy + mymin; 
-            hx[ih] = ihx*dhx + hxmin; 
-            hy[ih] = ihy*dhy + hymin; 
+            mx[ih] = imx*dmx + mxmin + mx_dev[imx];
+            my[ih] = imy*dmy + mymin + my_dev[imy]; 
+            hx[ih] = ihx*dhx + hxmin + hx_dev[ihx]; 
+            hy[ih] = ihy*dhy + hymin + hy_dev[ihy]; 
             ih++;
           }
         }
@@ -316,7 +348,12 @@ int main(int argc, char **argv)
     } 
   } 
   
-  
+  if (verbose) fprintf(stderr,"creating %d traces \n", nh);
+  for (ih=0;ih<nh;ih++){ 
+    for (it=0;it<nt;it++){   
+      d[ih][it] = 0;
+    }
+  }
   plane5d(d,
           nt,nh,
           mx,my,hx,hy,
@@ -325,7 +362,6 @@ int main(int argc, char **argv)
           curve_mx,curve_my,curve_hx,curve_hy,
           dt,fmin,fmax,f0);
   
-    
  /* ***********************************************************************
  outputting data:
  *********************************************************************** */

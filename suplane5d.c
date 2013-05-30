@@ -30,12 +30,12 @@ char *sdoc[] = {
   "           nevent=1; (number of events)                            ",
   "                               ",
   "           To acheive shot/receiver geometry code:                    ",
-  "           sxmin=500;           ",
-  "           sxmax=500;           ",
-  "           symin=500;           ",
-  "           symax=500;           ",
-  "           gxmin=500;           ",
-  "           gxmax=500;           ",
+  "           sxmin=0;           ",
+  "           sxmax=0;           ",
+  "           symin=0;           ",
+  "           symax=0;           ",
+  "           gxmin=0;           ",
+  "           gxmax=0;           ",
   "           gymin=0;             ",
   "           gymax=1000;          ",
   "           dsx=10;              ",
@@ -63,12 +63,12 @@ char *sdoc[] = {
   "           t0 = 0.2; (zero offset time for each event )                 ",
   "           v_mx = 10000000; (velocity for each event in mx direction)   ",
   "           v_my = 10000000; (velocity for each event in my direction)   ",
-  "           v_hx = 900; (velocity for each event in hx direction)       ",
-  "           v_hy = 900; (velocity for each event in hy direction)       ",
+  "           v_hx = 10000000; (velocity for each event in hx direction)       ",
+  "           v_hy = 50; (velocity for each event in hy direction)       ",
   "           curve_mx = 2; (power multiplied against the distance to achieve curvature in mx direction) ",
   "           curve_my = 2; (power multiplied against the distance to achieve curvature in my direction) ",
   "           curve_hx = 2; (power multiplied against the distance to achieve curvature in hx direction) ",
-  "           curve_hy = 2; (power multiplied against the distance to achieve curvature in hy direction)",
+  "           curve_hy = 1; (power multiplied against the distance to achieve curvature in hy direction)",
   "                                                                   ",
   "           It is also possible to perturb the shot/receiver or midpoint/offset coordinates ",
   "           using the following parameters:                         ",
@@ -172,12 +172,12 @@ int main(int argc, char **argv)
     t0 = ealloc1float(nevent); t0[0] = 0.2;
     v_mx = ealloc1float(nevent); v_mx[0] = 10000000;
     v_my = ealloc1float(nevent); v_my[0] = 10000000;
-    v_hx = ealloc1float(nevent); v_hx[0] = 900;
-    v_hy = ealloc1float(nevent); v_hy[0] = 900;
+    v_hx = ealloc1float(nevent); v_hx[0] = 10000000;
+    v_hy = ealloc1float(nevent); v_hy[0] = 50;
     curve_mx = ealloc1float(nevent); curve_mx[0] = 2;
     curve_my = ealloc1float(nevent); curve_my[0] = 2;
     curve_hx = ealloc1float(nevent); curve_hx[0] = 2;
-    curve_hy = ealloc1float(nevent); curve_hy[0] = 2;
+    curve_hy = ealloc1float(nevent); curve_hy[0] = 1;
   }
   else{
     if (!(nevent == countparval("amp"))) err("must give amp= vector");
@@ -219,12 +219,12 @@ int main(int argc, char **argv)
     } 
   }
   
-  if (!getparfloat("sxmin", &sxmin)) sxmin=500;
-  if (!getparfloat("sxmax", &sxmax)) sxmax=500;
-  if (!getparfloat("symin", &symin)) symin=500;
-  if (!getparfloat("symax", &symax)) symax=500;
-  if (!getparfloat("gxmin", &gxmin)) gxmin=500;
-  if (!getparfloat("gxmax", &gxmax)) gxmax=500;
+  if (!getparfloat("sxmin", &sxmin)) sxmin=0;
+  if (!getparfloat("sxmax", &sxmax)) sxmax=0;
+  if (!getparfloat("symin", &symin)) symin=0;
+  if (!getparfloat("symax", &symax)) symax=0;
+  if (!getparfloat("gxmin", &gxmin)) gxmin=0;
+  if (!getparfloat("gxmax", &gxmax)) gxmax=0;
   if (!getparfloat("gymin", &gymin)) gymin=0;
   if (!getparfloat("gymax", &gymax)) gymax=1000;
   if (!getparfloat("dsx", &dsx)) dsx=10;

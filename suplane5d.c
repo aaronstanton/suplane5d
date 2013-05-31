@@ -64,11 +64,11 @@ char *sdoc[] = {
   "           v_mx = 10000000; (velocity for each event in mx direction)   ",
   "           v_my = 10000000; (velocity for each event in my direction)   ",
   "           v_hx = 10000000; (velocity for each event in hx direction)       ",
-  "           v_hy = 50; (velocity for each event in hy direction)       ",
+  "           v_hy = 1500; (velocity for each event in hy direction)       ",
   "           curve_mx = 2; (power multiplied against the distance to achieve curvature in mx direction) ",
   "           curve_my = 2; (power multiplied against the distance to achieve curvature in my direction) ",
   "           curve_hx = 2; (power multiplied against the distance to achieve curvature in hx direction) ",
-  "           curve_hy = 1; (power multiplied against the distance to achieve curvature in hy direction)",
+  "           curve_hy = 2; (power multiplied against the distance to achieve curvature in hy direction)",
   "                                                                   ",
   "           It is also possible to perturb the shot/receiver or midpoint/offset coordinates ",
   "           using the following parameters:                         ",
@@ -173,11 +173,11 @@ int main(int argc, char **argv)
     v_mx = ealloc1float(nevent); v_mx[0] = 10000000;
     v_my = ealloc1float(nevent); v_my[0] = 10000000;
     v_hx = ealloc1float(nevent); v_hx[0] = 10000000;
-    v_hy = ealloc1float(nevent); v_hy[0] = 50;
+    v_hy = ealloc1float(nevent); v_hy[0] = 1500;
     curve_mx = ealloc1float(nevent); curve_mx[0] = 2;
     curve_my = ealloc1float(nevent); curve_my[0] = 2;
     curve_hx = ealloc1float(nevent); curve_hx[0] = 2;
-    curve_hy = ealloc1float(nevent); curve_hy[0] = 1;
+    curve_hy = ealloc1float(nevent); curve_hy[0] = 2;
   }
   else{
     if (!(nevent == countparval("amp"))) err("must give amp= vector");

@@ -86,7 +86,7 @@ char *sdoc[] = {
   "           Example coding:                                         ",
   "           # makes a single 2D shot gather with irregular spacing       ",
   "           suplane5d verbose=1 gy_std_dev=5 > d.su                      ",
-  "           suxwigb wclip=-1 bclip=1 key=gy < d.su &                     ",
+  "           suxwigb clip=1 key=gy < d.su &                               ",
  NULL};
 /* Credits:
  * Aaron Stanton
@@ -290,10 +290,10 @@ int main(int argc, char **argv)
   hy_dev = ealloc1float(nhy);
   
   if (mode==1){
-  	for (isx=0;isx<nsx;isx++) sx_dev[isx] = sx_std_dev*frannor();
-  	for (isy=0;isy<nsy;isy++) sy_dev[isy] = sy_std_dev*frannor();
-  	for (igx=0;igx<ngx;igx++) gx_dev[igx] = gx_std_dev*frannor();
-  	for (igy=0;igy<ngy;igy++) gy_dev[igy] = gy_std_dev*frannor();
+  	for (isx=0;isx<nsx;isx++) sx_dev[isx] = truncf(sx_std_dev*frannor());
+  	for (isy=0;isy<nsy;isy++) sy_dev[isy] = truncf(sy_std_dev*frannor());
+  	for (igx=0;igx<ngx;igx++) gx_dev[igx] = truncf(gx_std_dev*frannor());
+  	for (igy=0;igy<ngy;igy++) gy_dev[igy] = truncf(gy_std_dev*frannor());
     ih = 0;   
     for (isx=0;isx<nsx;isx++){ 
       for (isy=0;isy<nsy;isy++){ 
@@ -310,10 +310,10 @@ int main(int argc, char **argv)
     } 
   } 
   else{ 
-  	for (imx=0;imx<nmx;imx++) mx_dev[imx] = mx_std_dev*frannor();
-  	for (imy=0;imy<nmy;imy++) my_dev[imy] = my_std_dev*frannor();
-  	for (ihx=0;ihx<nhx;ihx++) hx_dev[ihx] = hx_std_dev*frannor();
-  	for (ihy=0;ihy<nhy;ihy++) hy_dev[ihy] = hy_std_dev*frannor();
+  	for (imx=0;imx<nmx;imx++) mx_dev[imx] = truncf(mx_std_dev*frannor());
+  	for (imy=0;imy<nmy;imy++) my_dev[imy] = truncf(my_std_dev*frannor());
+  	for (ihx=0;ihx<nhx;ihx++) hx_dev[ihx] = truncf(hx_std_dev*frannor());
+  	for (ihy=0;ihy<nhy;ihy++) hy_dev[ihy] = truncf(hy_std_dev*frannor());
     ih = 0;   
     for (imx=0;imx<nmx;imx++){ 
       for (imy=0;imy<nmy;imy++){ 

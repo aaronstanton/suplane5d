@@ -29,7 +29,7 @@ char *sdoc[] = {
   "           f0 = 30; (dominant frequency of ricker wavelet)         ",
   "           nevent=1; (number of events)                            ",
   "                               ",
-  "           To acheive shot/receiver geometry code:                    ",
+  "           To acheive shot/receiver geometry code:                 ",
   "           sxmin=0;           ",
   "           sxmax=0;           ",
   "           symin=0;           ",

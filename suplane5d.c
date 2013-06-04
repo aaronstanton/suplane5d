@@ -166,7 +166,8 @@ int main(int argc, char **argv)
   if (!getparfloat("hy_std_dev",&hy_std_dev)) hy_std_dev = 0;
   fmax = MIN(fmax,0.5/dt);
   if (!getparfloat("f0",&f0)) f0 = 30; /* 30 Hz dominant freq for ricker wavelet */
-  if (!getparint("nevent",&nevent)){ 
+  if (!getparint("nevent",&nevent)){
+    fprintf(stderr,"warning nevent not set, using default settings\n"); 
     nevent=1; 
     amp = ealloc1float(nevent); amp[0] = 1;
     t0 = ealloc1float(nevent); t0[0] = 0.2;
@@ -200,7 +201,7 @@ int main(int argc, char **argv)
     if (!(nevent == countparval("curve_hx"))) err("must give curve_hx= vector");
     if (!(nevent == countparval("curve_hy"))) err("must give curve_hy= vector");
     curve_mx = ealloc1float(nevent);	getparfloat("curve_mx", curve_mx);
-    curve_my = ealloc1float(nevent);	getparfloat("curve_mx", curve_mx);
+    curve_my = ealloc1float(nevent);	getparfloat("curve_my", curve_my);
     curve_hx = ealloc1float(nevent);	getparfloat("curve_hx", curve_hx);
     curve_hy = ealloc1float(nevent);	getparfloat("curve_hy", curve_hy);
   }

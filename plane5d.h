@@ -134,8 +134,8 @@ void plane5d(float **d,
 
   free2complex(D);
   fftwf_destroy_plan(p1);
-  fftwf_free(in1); fftwf_free(out1);
-  fftwf_free(in2); fftwf_free(out2);
+  free1float(in1);free1complex(out1);
+  free1complex(in2);free1float(out2);
   
   return; 
 }

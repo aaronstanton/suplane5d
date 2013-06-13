@@ -25,4 +25,4 @@ remake	:
 	$(MAKE) 
 	
 clean::
-	rm -f a.out junk* JUNK* core
+	rm -f a.out junk* JUNK* core INSTALL
